@@ -28,7 +28,7 @@ jobs:
         id: meta
         uses: docker/metadata-action@v5
         with:
-          images: ghcr.io/crafted4u/miranda-clinics-api:test
+          images: ghcr.io/crafted4u/miranda-clinics-api:latest
 
       - name: Build and Push Image
         uses: docker/build-push-action@v6
