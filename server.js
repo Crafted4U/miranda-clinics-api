@@ -37,6 +37,27 @@ app.put("/api/queue/:room", (req, res) => {
   return res.json({ success: true, room: queueData[room] });
 });
 
+app.put("/api/queue/:room/doctor-status", (req, res) => {
+  const { room } = req.params;
+  const { doctorIn, isIn } = req.body;
+
+  if (!queueData[room]) {
+    return res.status(404).json({ success: false, message: "Room not found" });
+  }
+
+  const nextDoctorStatus = typeof doctorIn === "boolean"
+    ? doctorIn
+    : (typeof isIn === "boolean" ? isIn : null);
+
+  if (nextDoctorStatus === null) {
+    return res.status(400).json({ success: false, message: "doctorIn or isIn must be a boolean" });
+  }
+
+  queueData[room].doctorIn = nextDoctorStatus;
+
+  return res.json({ success: true, room: queueData[room] });
+});
+
 const PORT = process.env.PORT || 3000;
 
 app.listen(PORT, () => {
